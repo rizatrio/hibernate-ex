@@ -14,17 +14,57 @@ public class MainClass {
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Book.class)
                 .addAnnotatedClass(Author.class)
-//                .addAnnotatedClass(Reader.class)
+                .addAnnotatedClass(Product.class)
                 .buildSessionFactory();
         // CRUD
         Session session = null;
         session = factory.getCurrentSession();
         session.beginTransaction();
+
+          // CREATE
+//        Product product = new Product();
+//        product.setTitle("Bread");
+//        product.setPrice(10);
+//        session.save(product);
+//        session.getTransaction().commit();
+//
+//        session = factory.getCurrentSession();
+//        session.beginTransaction();
+//        Product product2 = new Product();
+//        product2.setTitle("Milk");
+//        product2.setPrice(12);
+//        session.save(product2);
+//        session.getTransaction().commit();
+
+         // READ
+
+        List<Product> allProducts = session.createQuery("from Product").getResultList();
+        System.out.println(allProducts.stream().map(p -> p.getTitle()).collect(Collectors.joining(",")));
+
+        // READ
+//        Product product1 = session.get(Product.class, 1);
+//        session.getTransaction().commit();
+//        System.out.println(product1);
+
+
+            // UPDATE
+//            Product productt = session.get(Product.class, 2);
+//            productt.setTitle("Cheese");
+//            session.getTransaction().commit();
+//            System.out.println(productt);
+
+            // DELETE
+//            Product productD = session.get(Product.class, 3);
+//            session.delete(productD);
+//            session.getTransaction().commit();
+
+
+
 //        session = factory.getCurrentSession();
 //////////////////
 //        session.beginTransaction();
-        Book book = session.get(Book.class, 5);
-        System.out.println(book);
+//        Book book = session.get(Book.class, 5);
+//        System.out.println(book);
 //        book.setTitle("HP_7");
 //        session.getTransaction().commit();
 //        System.out.println(book);

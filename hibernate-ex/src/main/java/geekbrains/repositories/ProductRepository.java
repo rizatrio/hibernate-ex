@@ -2,18 +2,17 @@ package geekbrains.repositories;
 
 
 import geekbrains.entities.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-public interface ProductRepository {
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    public List<Product> findAllByPriceGreaterThan(BigDecimal minCost);
 
-    List<Product> findAll();
+    public List<Product> findAllByPriceLessThan(BigDecimal maxCost);
 
-    List<Product> findAllSortedByName();
+    public List<Product> findAllByPriceBetween(BigDecimal minCost, BigDecimal maxCost);
 
-    Product findById(Long id);
-
-    void deleteById(Long id);
-
-    void saveOrUpdate(Product product);
+    public List<Product> findAllSortedByName(String title);
 }

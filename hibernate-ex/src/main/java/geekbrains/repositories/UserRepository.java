@@ -1,17 +1,8 @@
 package geekbrains.repositories;
 
 import geekbrains.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 
-public interface UserRepository {
-
-    List<User> findAll();
-
-    User findById(Long id);
-
-    void deleteById(Long id);
-
-    void saveOrUpdate(User user);
-
+public interface UserRepository extends JpaRepository<User, Long> {
 }

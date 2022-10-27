@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +48,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addProduct(Cart cart, Long prodId, Integer quantity) {
-        Product product = productRepository.findById(prodId);
+        Product product = productRepository.findById(prodId).get();
         this.addProduct(cart, product, quantity);
     }
 
@@ -89,14 +88,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public int getProductQuantity(Cart cart, Long prodId) {
-        Product product = productRepository.findById(prodId);
+        Product product = productRepository.findById(prodId).get();
         return this.getProductQuantity(cart, product);
     }
 
     @Override
     public List<Product> getCartListSorted(Cart cart) {
         List<Product> cartList = new ArrayList<>(cart.getCartMap().keySet());
-        Collections.sort(cartList, (p1, p2) -> {
+        cartList.sort((p1, p2) -> {
             if (p1.getId() > p2.getId()) {
                 return 1;
             } else if (p1.getId() < p2.getId()) {

@@ -40,7 +40,7 @@ public class PersistenceConfig {
     public LocalSessionFactoryBean entityManagerFactory() {
         LocalSessionFactoryBean factory = new LocalSessionFactoryBean(); // фабрика
         factory.setDataSource(dataSource()); // источник (БД)
-        factory.setPackagesToScan("com.geekbrains.persistence.entities"); // ссылка на классы-сущности
+        factory.setPackagesToScan("geekbrains.entities"); // ссылка на классы-сущности
         factory.setHibernateProperties(hibernateProperties()); // настройки Hibernate
         return factory;
     }

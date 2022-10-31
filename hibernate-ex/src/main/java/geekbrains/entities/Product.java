@@ -2,19 +2,13 @@ package geekbrains.entities;
 
 import lombok.Data;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 @Entity
 @Table(name = "products")
-@NamedQueries({
-        @NamedQuery(name = "Product.findAll", query = "FROM Product p"),
-        @NamedQuery(name = "Product.findAllSortedByName", query = "FROM Product p ORDER BY p.name ASC"),
-        @NamedQuery(name = "Product.findById", query = "FROM Product p WHERE p.id = :id"),
-        @NamedQuery(name = "Product.deleteById", query = "DELETE FROM Product p WHERE p.id = :id")
-})
-
 public class Product {
 
     @Id
@@ -22,32 +16,20 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @NotBlank
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Max(value = 1000)
+    @Column(nullable = false)
     private BigDecimal price;
 
-    @ManyToMany
-    @JoinTable(
-            name = "order_products",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Order> orders;
-
-    @OneToMany(mappedBy = "product")
-    private List<CartEntry> cartEntries;
-
-    public Product() { }
+    public Product() {
+    }
 
     public Product(Long id, String name, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Product id = %s, name = %s, price = %s", id, name, price);
     }
 }

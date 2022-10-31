@@ -3,16 +3,22 @@ package geekbrains.repositories;
 
 import geekbrains.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
-    public List<Product> findAllByPriceGreaterThan(BigDecimal minCost);
+public interface ProductRepository extends JpaRepository<Product, Long> , JpaSpecificationExecutor<Product> {
 
-    public List<Product> findAllByPriceLessThan(BigDecimal maxCost);
+    @Query("select p from Product p where (p.name like concat(:prefix, '%') or :prefix is null) and" +
+            "(p.price >= :minPrice or :minPrice is null) and" +
+            "(p.price <= :maxPrice or :maxPrice is null)")
+    List<Product> filterProducts (
+            @Param("prefix") String prefix,
+            @Param("minPrice") BigDecimal minPrice,
+            @Param("maxPrice") BigDecimal maxPrice
+    );
 
-    public List<Product> findAllByPriceBetween(BigDecimal minCost, BigDecimal maxCost);
-
-    public List<Product> findAllSortedByName(String title);
 }

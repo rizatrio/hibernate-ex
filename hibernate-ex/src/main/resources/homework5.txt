@@ -1,0 +1,8 @@
+*Изменила базу данных на postgres, настроила под своим локальными данными
+
+*В конфиг файл добавила для того чтобы при запуске приложение сразу обновил-создавал таблицы
+<property name="hibernate.hbm2ddl.auto">update</property>
+
+*Создала сущность Product с полями Long id, String title, int price
+
+*В MainClass выполняла CRUD операции для таблицы products(entity Product)

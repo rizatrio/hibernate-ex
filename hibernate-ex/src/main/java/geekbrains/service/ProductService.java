@@ -2,28 +2,40 @@ package geekbrains.service;
 
 import geekbrains.entities.Product;
 import geekbrains.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class ProductService {
-//
-//    @Autowired
-//    private ProductRepository productRepository;
-//
-//    public List<Product> getAll() {return productRepository.findAll();}
-//    public List<Product> getAllByCostGreaterThan(BigDecimal minCost){return productRepository.findAllByPriceGreaterThan(minCost);}
-//    public List<Product> getAllByCostLessThan(BigDecimal maxCost){return productRepository.findAllByPriceLessThan(maxCost);}
-//    public List<Product> getAllByCostBetween(BigDecimal minCost, BigDecimal maxCost){return productRepository.findAllByPriceBetween(minCost, maxCost);}
-//
-//    public List<Product> getAllByTitleContains(String title){return productRepository.findAllSortedByName(title);}
-//
-//    public Product getById(long id){return productRepository.getOne(id);}
-//
-//    public Product save(Product product){return productRepository.save(product);}
-//
-//    public void deleteById(long id){productRepository.deleteById(id);}
+    private final ProductRepository productRepository;
+
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    public Page<Product> findAllFilteredPaged(BigDecimal minPrice, BigDecimal maxPrice, String partTitle, Integer pageIndex, Integer productsPerPage) {
+        Pageable pageRequest = PageRequest.of(pageIndex - 1, productsPerPage);
+        Page<Product> productPage = productRepository.findProductsByPriceBetweenAndTitleLike(minPrice, maxPrice, "%"+partTitle+"%", pageRequest);
+        return productPage;
+    }
+
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    public Product saveOrUpdate(Product product) {
+        return productRepository.save(product);
+    }
+
+    public void deleteProductById(Long id) {
+        productRepository.deleteById(id);
+    }
 }

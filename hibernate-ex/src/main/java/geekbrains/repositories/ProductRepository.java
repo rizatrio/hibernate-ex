@@ -2,6 +2,8 @@ package geekbrains.repositories;
 
 
 import geekbrains.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> , JpaSpe
             @Param("minPrice") BigDecimal minPrice,
             @Param("maxPrice") BigDecimal maxPrice
     );
+
+    Page<Product> findProductsByPriceBetweenAndTitleLike(BigDecimal minPrice, BigDecimal maxPrice, String partTitle, Pageable varPageSort);
 
 }
